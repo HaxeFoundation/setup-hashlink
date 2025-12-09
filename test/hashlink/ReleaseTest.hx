@@ -4,12 +4,14 @@ import hashlink.Release.ReleaseAsset;
 
 /** Tests the features of the `Release` class. **/
 @:asserts final class ReleaseTest {
+	public static inline var LATEST_MINOR = "1.15";
+	public static inline var LATEST = '$LATEST_MINOR.0';
 
 	/** A release that exists. **/
-	public static final existingRelease = new Release({version: "1.14.0", assets: [
-		new ReleaseAsset({os: Linux, file: "hashlink-1.14.0.zip"}),
-		new ReleaseAsset({os: MacOs, file: "hashlink-1.14.0.zip"}),
-		new ReleaseAsset({os: Windows, file: "hashlink-1.14.0.zip"})
+	public static final existingRelease = new Release({version: LATEST, assets: [
+		new ReleaseAsset({os: Linux, file: 'hashlink-$LATEST.zip'}),
+		new ReleaseAsset({os: MacOs, file: 'hashlink-$LATEST.zip'}),
+		new ReleaseAsset({os: Windows, file: 'hashlink-$LATEST.zip'})
 	]});
 
 	/** A release that doesn't exist. **/
@@ -37,13 +39,13 @@ import hashlink.Release.ReleaseAsset;
 	}
 
 	/** Tests the `tag` property. **/
-	@:variant(hashlink.ReleaseTest.existingRelease, "1.14")
+	@:variant(hashlink.ReleaseTest.existingRelease, hashlink.ReleaseTest.LATEST_MINOR)
 	@:variant(hashlink.ReleaseTest.nonExistentRelease, "666.6.6")
 	public function tag(input: Release, output: String)
 		return assert(input.tag == output);
 
 	/** Tests the `url` property. **/
-	@:variant(hashlink.ReleaseTest.existingRelease, "releases/download/1.14/hashlink-1.14.0.zip")
+	@:variant(hashlink.ReleaseTest.existingRelease, 'releases/download/${hashlink.ReleaseTest.LATEST_MINOR}/hashlink-${hashlink.ReleaseTest.LATEST}.zip')
 	@:variant(hashlink.ReleaseTest.nonExistentRelease, "archive/refs/tags/666.6.6.zip")
 	public function url(input: Release, output: String)
 		return assert(input.url == 'https://github.com/HaxeFoundation/hashlink/$output');
@@ -60,7 +62,7 @@ import hashlink.Release.ReleaseAsset;
 	}
 
 	/** Tests the `get()` method. **/
-	@:variant("1.14.0", Some("1.14.0"))
+	@:variant(hashlink.ReleaseTest.LATEST, Some(hashlink.ReleaseTest.LATEST))
 	@:variant("666.6.6", None)
 	public function get(input: String, output: Option<String>) return switch Release.get(input) {
 		case None: assert(output == None);
@@ -68,7 +70,7 @@ import hashlink.Release.ReleaseAsset;
 	}
 
 	/** Tests the `getAsset()` method. **/
-	@:variant(hashlink.ReleaseTest.existingRelease, Some("hashlink-1.14.0.zip"))
+	@:variant(hashlink.ReleaseTest.existingRelease, Some('hashlink-${hashlink.ReleaseTest.LATEST}.zip'))
 	@:variant(hashlink.ReleaseTest.nonExistentRelease, None)
 	public function getAsset(input: Release, output: Option<String>) return switch input.getAsset(Windows) {
 		case None: assert(output == None);
