@@ -22,7 +22,7 @@ class Setup {
 	**/
 	public function download(): Promise<String>
 		return ToolCache.downloadTool(release.url).toPromise()
-			.next(file -> ToolCache.extractZip(file))
+			.next(file -> if (release.url.toString().endsWith(".tar.gz")) ToolCache.extractTar(file) else ToolCache.extractZip(file))
 			.next(path -> findSubfolder(path).next(name -> normalizeSeparator(Path.join([path, name]))));
 
 	/**

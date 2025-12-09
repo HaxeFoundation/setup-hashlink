@@ -19,9 +19,6 @@ dist:
 publish:
 	haxe scripts.hxml --run Publish --cp src --lib tink_core
 
-test:
-	haxe test.hxml
-
 lint:
 	haxelib run checkstyle --exitcode --source src --source scripts --source test
 

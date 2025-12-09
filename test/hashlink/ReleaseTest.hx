@@ -4,8 +4,8 @@ import hashlink.Release.ReleaseAsset;
 
 /** Tests the features of the `Release` class. **/
 @:asserts final class ReleaseTest {
-	public static inline var LATEST_MINOR = "1.15";
-	public static inline var LATEST = '$LATEST_MINOR.0';
+	public static final LATEST = hashlink.Release.latest.version;
+	public static final LATEST_MINOR = LATEST.substring(0, LATEST.lastIndexOf("."));
 
 	/** A release that exists. **/
 	public static final existingRelease = new Release({version: LATEST, assets: [

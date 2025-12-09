@@ -32,7 +32,7 @@ class Release implements Model {
 	@:computed var isSource: Bool = getAsset(Sys.systemName()) == None;
 
 	/** The associated Git tag. **/
-	@:computed var tag: String = {
+	@:computed var tag: String = if (version == "latest") version else {
 		final semver: Version = version;
 		final tag = '${semver.major}.${semver.minor}';
 		semver.patch > 0 ? '$tag.${semver.patch}' : tag;

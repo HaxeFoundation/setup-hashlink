@@ -26,6 +26,12 @@ extern class ToolCache {
 	static function extractZip(file: String, ?directory: String): Promise<String>;
 
 	/**
+		Extracts the specified TAR archive into the given directory.
+		Returns the path of the location where the archive was extracted.
+	**/
+	static function extractTar(file: String, ?directory: String): Promise<String>;
+
+	/**
 		Finds the path to a tool version in the local installed tool cache.
 		Returns an empty string if the tool was not found.
 	**/

@@ -11,6 +11,10 @@ inputs:
     description: The version constraint of the HashLink VM.
     default: latest
     required: false
+  GITHUB_TOKEN:
+    description: The github token to use to resolve HashLink nightlies.
+    default: ${{ github.token }}
+    required: false
 
 runs:
   using: node20

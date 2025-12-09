@@ -42,4 +42,6 @@ jobs:
         platform: [macos-latest, ubuntu-latest, windows-latest]
     steps:
       - uses: HaxeFoundation/setup-hashlink@master
+        with:
+          version: latest
       - run: hl --version
