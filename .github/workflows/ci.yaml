@@ -10,7 +10,7 @@ jobs:
       - name: Set up Haxe
         uses: krdlab/setup-haxe@v2
         with:
-          haxe-version: 4.3.7
+          haxe-version: 5.0.0-preview.1
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -26,9 +26,7 @@ jobs:
         if: steps.haxelib-cache.outputs.cache-hit != 'true'
         run: |
           haxelib newrepo
-          haxelib install --always --skip-dependencies install.hxml
-          # TODO: switch to that for recent haxelib
-          # haxelib state load install.hxml
+          haxelib state load install.hxml
       - name: Install npm dependencies
         run: npm ci
       - name: Run tests
@@ -40,8 +38,14 @@ jobs:
       fail-fast: false
       matrix:
         platform: [macos-latest, ubuntu-latest, windows-latest]
+        hl: [nightly, latest, 1.14.0]
+        exclude:
+          - platform: macos-latest
+            hl: 1.14.0
+          - platform: macos-latest
+            hl: latest
     steps:
       - uses: HaxeFoundation/setup-hashlink@master
         with:
-          version: latest
+          version: ${{matrix.hl}}
       - run: hl --version

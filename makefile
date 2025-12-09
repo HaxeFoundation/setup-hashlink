@@ -1,7 +1,6 @@
 setup:
 	@haxelib newrepo 2&>/dev/null || true
-	@#haxelib state load install.hxml
-	haxelib install --always --skip-dependencies install.hxml
+	haxelib state load install.hxml
 	npm i
 
 build:
@@ -9,9 +8,6 @@ build:
 
 clean:
 	haxe scripts.hxml --run Clean
-
-version:
-	haxe scripts.hxml --run Version --cp src --lib tink_core
 
 dist:
 	haxe scripts.hxml --run Dist

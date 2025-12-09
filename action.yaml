@@ -1,6 +1,6 @@
-name: Setup HashLink VM
+name: HaxeFoundation - Setup HashLink
 description: Set up your GitHub Actions workflow with a specific version of the HashLink VM.
-author: Cédric Belin
+author: Haxe Foundation
 
 branding:
   color: purple
@@ -8,7 +8,9 @@ branding:
 
 inputs:
   version:
-    description: The version constraint of the HashLink VM.
+    description: |
+      The version constraint of the HashLink VM.
+      You can also use `latest` for latest non-preview release (currently `1.15.0`), `nightly` for latest nightly build.
     default: latest
     required: false
   GITHUB_TOKEN:
