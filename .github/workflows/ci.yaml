@@ -32,6 +32,7 @@ jobs:
     needs: test
     runs-on: ${{matrix.platform}}
     strategy:
+      fail-fast: false
       matrix:
         platform: [macos-latest, ubuntu-latest, windows-latest]
     steps:
