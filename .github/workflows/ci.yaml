@@ -45,7 +45,7 @@ jobs:
           - platform: macos-latest
             hl: latest
     steps:
-      - uses: HaxeFoundation/setup-hashlink@master
+      - uses: HaxeFoundation/setup-hashlink@v1
         with:
           version: ${{matrix.hl}}
       - run: hl --version

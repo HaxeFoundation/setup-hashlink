@@ -15,7 +15,7 @@ jobs:
         with:
           haxe-version: 5.0.0-preview.1
       - name: Set up HashLink
-        uses: haxefoundation/setup-hashlink@master
+        uses: HaxeFoundation/setup-hashlink@v1
         with:
           version: latest
       - name: Cache haxelib dependencies
