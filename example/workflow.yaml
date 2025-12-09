@@ -10,21 +10,22 @@ jobs:
     steps:
       - name: Fetch sources
         uses: actions/checkout@v4
-      - name: Set up Lix
-        uses: lix-pm/setup-lix@master
+      - name: Set up Haxe
+        uses: krdlab/setup-haxe@v2
       - name: Set up HashLink
-        uses: cedx/setup-hashlink@v5
+        uses: haxefoundation/setup-hashlink@master
         with:
           version: latest
-      - name: Cache dependencies
+      - name: Cache haxelib dependencies
+        id: haxelib-cache
         uses: actions/cache@v4
         with:
-          path: |
-            ~/haxe
-            ~/AppData/Roaming/haxe
-          key: haxe-${{runner.os}}-lix-${{hashFiles('.haxerc', 'haxe_libraries/*.hxml')}}
-          restore-keys: haxe-${{runner.os}}-lix-
+          path: .haxelib
+          key: haxe-${{runner.os}}-${{hashFiles('install.hxml')}}
       - name: Install dependencies
-        run: lix download
+        if: steps.haxelib-cache.outputs.cache-hit != 'true'
+        run: |
+          haxelib newrepo
+          haxelib state load install.hxml
       - name: Run tests
         run: haxe test.hxml

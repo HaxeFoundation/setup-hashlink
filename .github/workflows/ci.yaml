@@ -7,27 +7,32 @@ jobs:
     steps:
       - name: Fetch sources
         uses: actions/checkout@v4
-      - name: Set up Lix
-        uses: lix-pm/setup-lix@master
+      - name: Set up Haxe
+        uses: krdlab/setup-haxe@v2
+        with:
+          haxe-version: 4.3.7
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           cache: npm
           node-version: latest
-      - name: Cache dependencies
+      - name: Cache haxelib dependencies
+        id: haxelib-cache
         uses: actions/cache@v4
         with:
-          path: |
-            ~/haxe
-            ~/AppData/Roaming/haxe
-          key: haxe-${{runner.os}}-lix-${{hashFiles('.haxerc', 'haxe_libraries/*.hxml')}}
-          restore-keys: haxe-${{runner.os}}-lix-
-      - name: Install dependencies
+          path: .haxelib
+          key: haxe-${{runner.os}}-${{hashFiles('install.hxml')}}
+      - name: Install haxelib dependencies
+        if: steps.haxelib-cache.outputs.cache-hit != 'true'
         run: |
-          lix download
-          npm ci
+          haxelib newrepo
+          haxelib install --always --skip-dependencies install.hxml
+          # TODO: switch to that for recent haxelib
+          # haxelib state load install.hxml
+      - name: Install npm dependencies
+        run: npm ci
       - name: Run tests
-        run: lix Test
+        run: haxe test.hxml
   run:
     needs: test
     runs-on: ${{matrix.platform}}

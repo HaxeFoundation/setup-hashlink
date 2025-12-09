@@ -1,4 +1,3 @@
-//! --class-path src --library tink_core
 import hashlink.Platform;
 import sys.io.File;
 
